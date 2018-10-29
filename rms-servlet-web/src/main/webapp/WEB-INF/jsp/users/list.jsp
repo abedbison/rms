@@ -26,7 +26,7 @@
                         </a>
                     </td>
                     <td>
-                        <a href="${(loggedUser.id == user.id)?'#':'form?action=delete&id=${user.id}'}" >
+                        <a href="${(loggedUser.id == user.id)?'#':"form?action=delete&id="}${(loggedUser.id == user.id)?'':user.id}" >
                             <button class="mdl-button mdl-js-button mdl-button--icon" ${(loggedUser.id == user.id)?'disabled':''} >
                                 <i class="material-icons">delete</i>
                             </button>

@@ -57,18 +57,20 @@ public class LoginServlet extends AbstractController {
         String userName = req.getParameter("userName");
         String password = req.getParameter("password");
         req.setAttribute("userName", userName);
+        req.setAttribute(WEB_MSG, "login failed");
         
         UserDao userDao = UserDaoImpl.getInstance();
         Optional<User> oUser = userDao.findByUserName(userName);
-        if (oUser.isPresent() && oUser.get().getPassword().equals(password)) {
-            HttpSession session = req.getSession();
-            synchronized(session) {
-                session.setAttribute(LOGGED, oUser.get());
+        oUser.ifPresent(user -> {
+            if (user.getPassword().equals(password)) {
+                HttpSession session = req.getSession();
+                synchronized(session) {
+                    req.removeAttribute(WEB_MSG);
+                    session.setAttribute(LOGGED, oUser.get());
+                }
             }
-            resp.sendRedirect("index.jsp");
-        } else {
-            req.setAttribute(WEB_MSG, "login failed");
-            doGet(req, resp);
-        }
+        });
+        resp.sendRedirect("login.jsp");
     }
+    
 }

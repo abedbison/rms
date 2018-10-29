@@ -122,6 +122,19 @@ public class UserDaoImpl implements UserDao
     }
 
     @Override
+    public void truncate() {
+        try (Connection connection = DataSourceFactory.getConnection())
+        {
+            Statement stmt = connection.createStatement();
+            stmt.execute("TRUNCATE TABLE user");
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
     public Optional<User> findByUserName(String userName)
     {
         try (Connection connection = DataSourceFactory.getConnection())
