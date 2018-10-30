@@ -75,7 +75,6 @@ public class UserServlet extends AbstractController {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String pathInfo = req.getPathInfo();
         String action = req.getParameter("action");
         String sessionMessage = null;
         HttpSession session = req.getSession();
