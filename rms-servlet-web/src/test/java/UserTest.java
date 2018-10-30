@@ -1,21 +1,14 @@
-package com.mitrais.xtest;
-
-import com.mitrais.rms.dao.DataSourceFactory;
 import com.mitrais.rms.dao.UserDao;
 import com.mitrais.rms.dao.impl.UserDaoImpl;
 import com.mitrais.rms.model.User;
-import static org.junit.Assert.*;
-
 import com.mitrais.rms.service.UserService;
 import com.mitrais.rms.service.impl.UserServiceImpl;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Optional;
-import java.util.Properties;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
 public class UserTest {

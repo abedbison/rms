@@ -21,7 +21,7 @@ public class Script extends SimpleTagSupport {
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String relSrc = request.getContextPath()+ "/" + this.getSrc();
         JspWriter out = getJspContext().getOut();
-        out.println("<script type=\"" + getType() + "\" href=\""+relSrc+"\">");
+        out.println("<script type=\"" + getType() + "\" src=\""+relSrc+"\" ></script>");
     }
 
     public String getSrc() {

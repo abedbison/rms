@@ -3,6 +3,9 @@ package com.mitrais.rms.controller;
 import com.mitrais.rms.dao.UserDao;
 import com.mitrais.rms.dao.impl.UserDaoImpl;
 import com.mitrais.rms.model.User;
+import com.mitrais.rms.service.UserService;
+import com.mitrais.rms.service.impl.UserServiceImpl;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,37 +18,26 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/login")
 public class LoginServlet extends AbstractController {
 
-    private static final String WEB_MSG = "wmx";
-    private static final String LOGGED = "loggedUser";
-    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        
+
         String sLogout = req.getParameter("logout");
         boolean isLogout = (sLogout != null && "X".equals(sLogout));
-        
-        // no need re-login if already logged
+
         HttpSession session = req.getSession();
         synchronized(session) {
             User user = (User) session.getAttribute(LOGGED);
-            if (user != null && !isLogout) {
+            if (isLogout) {
+                session.removeAttribute(LOGGED);
+            }
+            if (isLogout || user != null) {
                 resp.sendRedirect("index.jsp");
             } else {
-                if (isLogout) {
-                    session.removeAttribute(LOGGED);
-                    resp.sendRedirect("index.jsp");
-                } else {
-                    String sessionMessage = (String) session.getAttribute(WEB_MSG);
-                    if (sessionMessage != null) {
-                        req.setAttribute(WEB_MSG, sessionMessage);
-                        session.removeAttribute(WEB_MSG);
-                    }
-                    
-                    String path = getTemplatePath(req.getServletPath());
-                    RequestDispatcher requestDispatcher = req.getRequestDispatcher(path);
-                    requestDispatcher.forward(req, resp);
-                }
+                this.appendMessage(req, session);
+                String path = getTemplatePath(req.getServletPath());
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher(path);
+                requestDispatcher.forward(req, resp);
             }
         }
     }
@@ -53,24 +45,27 @@ public class LoginServlet extends AbstractController {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        
+
         String userName = req.getParameter("userName");
         String password = req.getParameter("password");
         req.setAttribute("userName", userName);
-        req.setAttribute(WEB_MSG, "login failed");
-        
-        UserDao userDao = UserDaoImpl.getInstance();
-        Optional<User> oUser = userDao.findByUserName(userName);
+
+        UserService userService = UserServiceImpl.getInstance();
+        Optional<User> oUser = userService.findByUserName(userName);
+        HttpSession session = req.getSession();
         oUser.ifPresent(user -> {
             if (user.getPassword().equals(password)) {
-                HttpSession session = req.getSession();
                 synchronized(session) {
-                    req.removeAttribute(WEB_MSG);
                     session.setAttribute(LOGGED, oUser.get());
                 }
             }
         });
-        resp.sendRedirect("login.jsp");
+        if (!oUser.isPresent()) {
+            synchronized(session) {
+                this.setMessage(session, "login failed");
+            }
+        }
+        resp.sendRedirect("login");
     }
     
 }

@@ -38,7 +38,7 @@
             </table>  
         </div>
         <div class="mdl-cell mdl-cell--12-col">
-            ${sessionMessage}
+            ${wmx}
         </div>
     </div>
 </main>

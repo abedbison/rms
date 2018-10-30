@@ -1,26 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import com.mitrais.rms.util.CommonHelper;
-import java.sql.SQLException;
 import org.hamcrest.core.Is;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.BeforeClass;
+
+import java.sql.SQLException;
+
+import static org.junit.Assert.assertThat;
 
 /**
  *
  * @author Abednego_S810
  */
-public class CommonHelperTester {
+public class CommonHelperTest {
     
-    @BeforeClass
-    public static void doBeforeClass() { }
-    
-    public CommonHelperTester() { }
+    public CommonHelperTest() { }
     
     @Test
     public void testParseLong() throws SQLException {
