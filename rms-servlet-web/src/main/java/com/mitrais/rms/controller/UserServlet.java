@@ -1,9 +1,6 @@
 package com.mitrais.rms.controller;
 
-import com.mitrais.rms.dao.UserDao;
-import com.mitrais.rms.dao.impl.UserDaoImpl;
 import com.mitrais.rms.model.User;
-import com.mitrais.rms.service.UserService;
 import com.mitrais.rms.service.impl.UserServiceImpl;
 import com.mitrais.rms.util.CommonHelper;
 
@@ -12,10 +9,10 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import javax.servlet.http.HttpSession;
 
 @WebServlet("/users/*")
 public class UserServlet extends AbstractController {
@@ -42,7 +39,7 @@ public class UserServlet extends AbstractController {
                     long id = CommonHelper.parseLong(req.getParameter("id"));
                     if (id > 0) {
                         Optional<User> oUser = userService.find(id);
-                        user = (oUser.isPresent()) ? oUser.get() : null;
+                        user = oUser.orElse(null);
                     }
                     req.setAttribute("user", user);
 
@@ -76,7 +73,7 @@ public class UserServlet extends AbstractController {
             throws ServletException, IOException {
 
         String action = req.getParameter("action");
-        String sessionMessage = null;
+        String sessionMessage;
         HttpSession session = req.getSession();
         synchronized (session) {
             User loggedUser = (User) session.getAttribute(LOGGED);
@@ -108,7 +105,7 @@ public class UserServlet extends AbstractController {
     protected void redirectLogin(HttpServletRequest req, HttpServletResponse resp,
                                  HttpSession session) throws ServletException, IOException {
         this.setMessage(session, "Please Login First");
-        resp.sendRedirect(req.getContextPath() + "/login?action=");
+        resp.sendRedirect(req.getContextPath() + "/login");
     }
 
 }

@@ -2,8 +2,6 @@ import com.mitrais.rms.util.CommonHelper;
 import org.hamcrest.core.Is;
 import org.junit.Test;
 
-import java.sql.SQLException;
-
 import static org.junit.Assert.assertThat;
 
 /**
@@ -15,22 +13,22 @@ public class CommonHelperTest {
     public CommonHelperTest() { }
     
     @Test
-    public void testParseLong() throws SQLException {
+    public void testParseLong() {
         assertThat(Long.valueOf(891134), Is.is(CommonHelper.parseLong("891134")));
     }
     
     @Test
-    public void testParseLongError() throws SQLException {
+    public void testParseLongError() {
         assertThat(Long.valueOf(-1), Is.is(CommonHelper.parseLong("ABC")));
     }
     
     @Test
-    public void testParseLongEmptyString() throws SQLException {
+    public void testParseLongEmptyString() {
         assertThat(Long.valueOf(0), Is.is(CommonHelper.parseLong("")));
     }
     
     @Test
-    public void testParseLongNull() throws SQLException {
+    public void testParseLongNull() {
         assertThat(Long.valueOf(0), Is.is(CommonHelper.parseLong(null)));
     }
     

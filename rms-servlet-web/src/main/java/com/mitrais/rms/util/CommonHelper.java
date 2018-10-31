@@ -1,7 +1,5 @@
 package com.mitrais.rms.util;
 
-import com.mitrais.rms.model.User;
-
 /**
  * Common Helper
  * @author Abednego_S810
@@ -12,11 +10,11 @@ public class CommonHelper {
     
     /**
      * Convert String to Long
-     * @param number
+     * @param number any number in String format
      * @return parsed Long from number. Any error return -1
      */
     public static long parseLong(String number) {
-        long rtn = 0;
+        long rtn;
         try {
             rtn = ((number != null && !number.isEmpty()) ? Long.parseLong(number) : 0);
         } catch (NumberFormatException nfe) { 

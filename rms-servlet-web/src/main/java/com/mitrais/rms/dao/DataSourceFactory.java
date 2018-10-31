@@ -34,7 +34,7 @@ public class DataSourceFactory {
      * Get a data source to database
      *
      * @return DataSource object
-     * @throws java.sql.SQLException
+     * @throws java.sql.SQLException any SQL Exception
      */
     public static Connection getConnection() throws SQLException {
         return SingletonHelper.INSTANCE.dataSource.getConnection();
@@ -56,7 +56,6 @@ public class DataSourceFactory {
             rtn.load(input);
         } catch (IOException ex) {
             System.err.println("getDbConfig() - " + ex.getMessage());
-            System.err.println(ex.getCause());
         }
         return rtn;
     }

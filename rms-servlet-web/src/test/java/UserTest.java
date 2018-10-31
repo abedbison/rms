@@ -47,7 +47,7 @@ public class UserTest {
 
     @Test
     public void testUpdate() {
-        User user = userService.findByUserName("JaneDoe").get();
+        User user = userService.findByUserName("JaneDoe").orElse(new User(Long.valueOf(0), "", ""));
         user.setUserName("BabyDuey");
         userService.update(user);
         assertTrue(userService.findByUserName("BabyDuey").isPresent());

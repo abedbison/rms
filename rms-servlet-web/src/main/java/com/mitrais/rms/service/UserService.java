@@ -1,6 +1,5 @@
 package com.mitrais.rms.service;
 
-import com.mitrais.rms.dao.Dao;
 import com.mitrais.rms.model.User;
 
 import java.util.Optional;
